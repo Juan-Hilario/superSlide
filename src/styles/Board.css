@@ -1,0 +1,36 @@
+.board {
+  width: fit-content;
+  display: grid;
+  grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+}
+
+.piece,
+.blank {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  cursor: grab;
+}
+
+.blank {
+  background: grey;
+  border: 1px solid black;
+  cursor: unset;
+
+}
+
+.smallSquare {
+  background: yellow;
+}
+
+.bigSquare {
+  background: red;
+}
+
+.horizontalRect {
+  background: blue;
+}
+
+.verticalRect {
+  background: green;
+}
