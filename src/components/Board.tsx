@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { createShape, Shape } from "./Pieces";
+import Win from "./Win";
 import "../styles/Board.css";
 
 function Board() {
   let boardError = { msg: "", error: false };
+
+  const [level, setLevel] = useState<number>(0);
+
+  const changeLevel = (direction: "next" | "prev") => {
+    if (direction === "next") {
+      setLevel(level + 1);
+    } else if (direction === "prev") {
+      setLevel(level - 1);
+    }
+  };
 
   const placePiece = (board: (object | null)[][], piece: Shape) => {
     const coordinates = Object.values(piece.coordinates);
@@ -52,8 +63,10 @@ function Board() {
       return;
     }
   };
+
   let id = 1;
-  function getId() {
+  function getId(shapeType: string) {
+    if (shapeType === "bigSquare") return 0;
     return id++;
   }
 
@@ -361,7 +374,7 @@ function Board() {
               )),
             )}
           </div>
-          {gameWin ? <div className="win">You Win!</div> : null}
+          {gameWin ? <Win levelFunction={changeLevel} /> : null}
         </>
       )}
     </>
