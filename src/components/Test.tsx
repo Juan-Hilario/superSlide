@@ -1,48 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createShape, Shape, ShapeType } from "./Pieces";
-import Win from "./Win";
+
 import "../styles/Board.css";
 
-interface Level {
-  shapes: { type: ShapeType, m: number, n: number }[]
-}
-
-function Board() {
+function Test() {
 
   let boardError = { msg: "", error: false };
 
-  const [levels, setLevels] = useState<Level[] | []>([]);
-  const [levelNum, setLevelNum] = useState<number>(Number(`${localStorage.getItem("currentLevel") ? localStorage.getItem("currentLevel") : 0}`));
-  const [gameWin, setGameWin] = useState<boolean>(false);
-
-  localStorage.setItem("currentLevel", levelNum.toString())
-
-  // Get Levels from levels.json
-  const fetchLevels = async () => {
-    await fetch("levels.json").then(res => {
-      return res.json()
-    }).then(levels => {
-      setLevels(levels);
-    });
-  }
-
-  const changeLevel = (direction: "next" | "prev") => {
-    if (direction === "next") {
-      setLevelNum(levelNum + 1);
-    } else if (direction === "prev") {
-      setLevelNum(levelNum - 1);
-    }
-  };
-
-  useEffect(() => {
-    if (levels.length == 0) {
-      fetchLevels()
-    }
-  }, [])
-
-
-
   const placePiece = (board: (object | null)[][], piece: Shape) => {
+
     const coordinates = Object.values(piece.coordinates);
     const verifiedCoords = [];
     for (let i = 0; i < coordinates.length; i++) {
@@ -64,44 +30,23 @@ function Board() {
       });
     }
   };
-  const checkWin = (
-    board: ({ id: number; type: string; cordinates: [] } | null)[][],
-  ) => {
 
-    if (
-      board[3][1] == null ||
-      board[3][2] == null ||
-      board[4][1] == null ||
-      board[4][2] == null
-    ) {
-      return;
-    } else if (
-      board[3][1].id == 0 &&
-      board[3][2].id == 0 &&
-      board[4][1].id == 0 &&
-      board[4][2].id == 0
-    ) {
-      setGameWin(true);
-    } else {
-      return;
-    }
-  };
 
   let id = 1;
-  function getId(shapeType: ShapeType) {
-    if (shapeType === "bigSquare") return 0;
+  function getId() {
     return id++;
   }
 
-
-  const [pieces, setPieces] = useState<Shape[]>([])
-
-  useEffect(() => {
-    if (levels[levelNum]) {
-      const newPieces = levels[levelNum].shapes.map((shape) => createShape(shape.type, shape.m, shape.n, getId(shape.type)));
-      setPieces(newPieces);
-    }
-  }, [levels, levelNum])
+  const [pieces, setPieces] = useState([
+    createShape("smallSquare", 4, 0, getId()),
+    createShape("smallSquare", 3, 1, getId()),
+    createShape("smallSquare", 3, 2, getId()),
+    createShape("smallSquare", 4, 3, getId()),
+    createShape("bigSquare", 0, 1),
+    createShape("horizontalRect", 2, 1, getId()),
+    createShape("verticalRect", 0, 3, getId()),
+    createShape("verticalRect", 2, 3, getId()),
+  ]);
 
   // Builds empty board
   const createEmptyBoard = () =>
@@ -115,7 +60,7 @@ function Board() {
     return newBoard;
   };
 
-  const board = getBoardFromPieces(pieces);
+  const board = useMemo(() => getBoardFromPieces(pieces), [getBoardFromPieces, pieces]);
 
   const handlePieceSlide = (
     pieceId: number,
@@ -360,17 +305,11 @@ function Board() {
 
     const direction = getDirection(currentPieceId, m, n);
     if (direction) {
+      console.log("Direction: ", direction)
       handlePieceSlide(currentPieceId, direction);
     }
   }
 
-  useEffect(() => {
-    checkWin(board);
-  }, [board]);
-
-  useEffect(() => {
-    setGameWin(false);
-  }, [levelNum])
 
   return (
     <>
@@ -381,51 +320,43 @@ function Board() {
       ) : (
         <>
 
-          <h1>Level: {levelNum + 1}</h1>
-          <div className="board">
+          <div className="board" >
             {board.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
-                <div className="space">
+                <div
+                  className={` ${cell === null ? "blank" : "piece " + cell.type}`}
+                  data-m={rowIndex}
+                  data-n={colIndex}
+                  data-pieceid={`${cell === null ? null : cell.id}`}
 
-                  <div
-                    className={` ${cell === null ? "blank" : "piece " + cell.type}`}
-                    // draggable={cell === null ? false : true}
-                    data-m={rowIndex}
-                    data-n={colIndex}
+                  key={colIndex}
+                  onMouseDown={
+                    cell !== null
+                      ? () => handleGrab(cell.id)
+                      : undefined
+                  }
 
-                    onMouseDown={
-                      cell !== null
-                        ? () => handleGrab(cell.id)
-                        : undefined
-                    }
+                  onMouseEnter={
+                    cell === null
+                      ? (e: React.DragEvent<HTMLDivElement>) => {
+                        if (currentPieceId === null) return;
+                        const element = e.target as HTMLElement;
+                        const m = Number(element.dataset.m);
+                        const n = Number(element.dataset.n);
+                        handleHoverBlank(m, n);
 
-                    onMouseEnter={
-                      cell === null
-                        ? (e: React.DragEvent<HTMLDivElement>) => {
-                          if (currentPieceId === null) return;
-                          const element = e.target as HTMLElement;
-                          const m = Number(element.dataset.m);
-                          const n = Number(element.dataset.n);
-                          handleHoverBlank(m, n);
-
-                        }
-                        : undefined
-                    }
-
-                    key={colIndex}
-                  >
-                    <div className="inner"></div>
-                  </div>
-
-                </div>
+                      }
+                      : undefined
+                  }
+                ></div>
               )),
             )}
           </div>
-          {gameWin ? <Win levelFunction={changeLevel} /> : null}
         </>
       )}
     </>
   );
 }
 
-export default Board;
+
+export default Test;

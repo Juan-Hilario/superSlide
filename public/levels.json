@@ -1,53 +1,75 @@
-{
-  "levels": [
-    {
-      "shapes": [
-        {
-          "shapeType": "smallSquare",
-          "m": 4,
-          "n": 0
-        },
-        {
-          "shapeType": "smallSquare",
-          "m": 3,
-          "n": 1
-        },
-        {
-          "shapeType": "smallSquare",
-          "m": 3,
-          "n": 2
-        },
-        {
-          "shapeType": "smallSquare",
-          "m": 4,
-          "n": 2
-        },
-        {
-          "shapeType": "bigSquare",
-          "m": 0,
-          "n": 1
-        },
-        {
-          "shapeType": "horizontalRect",
-          "m": 2,
-          "n": 1
-        },
-        {
-          "shapeType": "verticalRect",
-          "m": 2,
-          "n": 1
-        },
-        {
-          "shapeType": "verticalRect",
-          "m": 0,
-          "n": 3
-        },
-        {
-          "shapeType": "verticalRect",
-          "m": 2,
-          "n": 3
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "shapes": [
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 0
+      },
+      {
+        "type": "smallSquare",
+        "m": 3,
+        "n": 1
+      },
+      {
+        "type": "smallSquare",
+        "m": 3,
+        "n": 2
+      },
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 3
+      },
+      {
+        "type": "bigSquare",
+        "m": 0,
+        "n": 1
+      },
+      {
+        "type": "horizontalRect",
+        "m": 2,
+        "n": 1
+      },
+      {
+        "type": "verticalRect",
+        "m": 0,
+        "n": 3
+      },
+      {
+        "type": "verticalRect",
+        "m": 2,
+        "n": 3
+      }
+    ]
+  },
+  {
+    "shapes": [
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 0
+      },
+      {
+        "type": "bigSquare",
+        "m": 0,
+        "n": 1
+      },
+      {
+        "type": "horizontalRect",
+        "m": 2,
+        "n": 1
+      },
+      {
+        "type": "verticalRect",
+        "m": 0,
+        "n": 3
+      },
+      {
+        "type": "verticalRect",
+        "m": 2,
+        "n": 3
+      }
+    ]
+  }
+]

@@ -9,7 +9,7 @@ export interface Shape {
   coordinates: Coordinate[];
 }
 
-type ShapeType =
+export type ShapeType =
   | "horizontalRect"
   | "verticalRect"
   | "smallSquare"
