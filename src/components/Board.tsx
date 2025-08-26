@@ -4,27 +4,32 @@ import Win from "./Win";
 import "../styles/Board.css";
 
 interface Level {
-  shapes: { type: ShapeType, m: number, n: number }[]
+  shapes: { type: ShapeType; m: number; n: number }[];
 }
 
 function Board() {
-
   let boardError = { msg: "", error: false };
 
   const [levels, setLevels] = useState<Level[] | []>([]);
-  const [levelNum, setLevelNum] = useState<number>(Number(`${localStorage.getItem("currentLevel") ? localStorage.getItem("currentLevel") : 0}`));
+  const [levelNum, setLevelNum] = useState<number>(
+    Number(
+      `${localStorage.getItem("currentLevel") ? localStorage.getItem("currentLevel") : 0}`,
+    ),
+  );
   const [gameWin, setGameWin] = useState<boolean>(false);
 
-  localStorage.setItem("currentLevel", levelNum.toString())
+  localStorage.setItem("currentLevel", levelNum.toString());
 
   // Get Levels from levels.json
   const fetchLevels = async () => {
-    await fetch("levels.json").then(res => {
-      return res.json()
-    }).then(levels => {
-      setLevels(levels);
-    });
-  }
+    await fetch("levels.json")
+      .then((res) => {
+        return res.json();
+      })
+      .then((levels) => {
+        setLevels(levels);
+      });
+  };
 
   const changeLevel = (direction: "next" | "prev") => {
     if (direction === "next") {
@@ -36,11 +41,9 @@ function Board() {
 
   useEffect(() => {
     if (levels.length == 0) {
-      fetchLevels()
+      fetchLevels();
     }
-  }, [])
-
-
+  }, []);
 
   const placePiece = (board: (object | null)[][], piece: Shape) => {
     const coordinates = Object.values(piece.coordinates);
@@ -67,7 +70,6 @@ function Board() {
   const checkWin = (
     board: ({ id: number; type: string; cordinates: [] } | null)[][],
   ) => {
-
     if (
       board[3][1] == null ||
       board[3][2] == null ||
@@ -93,15 +95,16 @@ function Board() {
     return id++;
   }
 
-
-  const [pieces, setPieces] = useState<Shape[]>([])
+  const [pieces, setPieces] = useState<Shape[]>([]);
 
   useEffect(() => {
     if (levels[levelNum]) {
-      const newPieces = levels[levelNum].shapes.map((shape) => createShape(shape.type, shape.m, shape.n, getId(shape.type)));
+      const newPieces = levels[levelNum].shapes.map((shape) =>
+        createShape(shape.type, shape.m, shape.n, getId(shape.type)),
+      );
       setPieces(newPieces);
     }
-  }, [levels, levelNum])
+  }, [levels, levelNum]);
 
   // Builds empty board
   const createEmptyBoard = () =>
@@ -133,8 +136,9 @@ function Board() {
             m: coord.m,
             n: coord.n - 1,
           }));
+          const newOrigin = { m: piece.origin.m, n: piece.origin.n - 1 };
 
-          return { ...piece, coordinates: newCoords };
+          return { ...piece, origin: newOrigin, coordinates: newCoords };
         });
       });
     } else if (direction === "up") {
@@ -147,7 +151,8 @@ function Board() {
             n: coord.n,
           }));
 
-          return { ...piece, coordinates: newCoords };
+          const newOrigin = { m: piece.origin.m - 1, n: piece.origin.n };
+          return { ...piece, origin: newOrigin, coordinates: newCoords };
         });
       });
     } else if (direction === "down") {
@@ -160,7 +165,8 @@ function Board() {
             n: coord.n,
           }));
 
-          return { ...piece, coordinates: newCoords };
+          const newOrigin = { m: piece.origin.m + 1, n: piece.origin.n };
+          return { ...piece, origin: newOrigin, coordinates: newCoords };
         });
       });
     } else {
@@ -173,7 +179,8 @@ function Board() {
             n: coord.n + 1,
           }));
 
-          return { ...piece, coordinates: newCoords };
+          const newOrigin = { m: piece.origin.m, n: piece.origin.n + 1 };
+          return { ...piece, origin: newOrigin, coordinates: newCoords };
         });
       });
     }
@@ -342,18 +349,18 @@ function Board() {
   useEffect(() => {
     const dragEnd = () => {
       setCurrentPieceId(null);
-    }
+    };
 
-    document.addEventListener("mouseup", dragEnd)
+    document.addEventListener("mouseup", dragEnd);
 
     return () => {
       document.removeEventListener("mouseup", dragEnd);
     };
-  })
+  });
 
   const handleGrab = (pieceId: number) => {
     setCurrentPieceId(pieceId);
-  }
+  };
 
   const handleHoverBlank = (m: number, n: number) => {
     if (currentPieceId == null) return;
@@ -362,7 +369,7 @@ function Board() {
     if (direction) {
       handlePieceSlide(currentPieceId, direction);
     }
-  }
+  };
 
   useEffect(() => {
     checkWin(board);
@@ -370,7 +377,21 @@ function Board() {
 
   useEffect(() => {
     setGameWin(false);
-  }, [levelNum])
+  }, [levelNum]);
+
+  useEffect(() => {
+    const boardPieces = document.querySelectorAll(".piece");
+    boardPieces.forEach((piece) => {
+      if (
+        piece.dataset.originM == piece.dataset.m &&
+        piece.dataset.originN == piece.dataset.n
+      ) {
+        piece.classList.add("leftmost");
+      } else {
+        piece.classList.remove("leftmost");
+      }
+    });
+  });
 
   return (
     <>
@@ -380,43 +401,35 @@ function Board() {
         </div>
       ) : (
         <>
-
           <h1>Level: {levelNum + 1}</h1>
           <div className="board">
             {board.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
                 <div className="space">
-
                   <div
-                    className={` ${cell === null ? "blank" : "piece " + cell.type}`}
-                    // draggable={cell === null ? false : true}
+                    className={` ${cell === null ? "blank" : "piece " + cell.type} `}
                     data-m={rowIndex}
                     data-n={colIndex}
-
+                    data-origin-m={`${cell ? cell.origin.m.toString() : null}`}
+                    data-origin-n={`${cell ? cell.origin.n.toString() : null}`}
                     onMouseDown={
-                      cell !== null
-                        ? () => handleGrab(cell.id)
-                        : undefined
+                      cell !== null ? () => handleGrab(cell.id) : undefined
                     }
-
                     onMouseEnter={
                       cell === null
                         ? (e: React.DragEvent<HTMLDivElement>) => {
-                          if (currentPieceId === null) return;
-                          const element = e.target as HTMLElement;
-                          const m = Number(element.dataset.m);
-                          const n = Number(element.dataset.n);
-                          handleHoverBlank(m, n);
-
-                        }
+                            if (currentPieceId === null) return;
+                            const element = e.target as HTMLElement;
+                            const m = Number(element.dataset.m);
+                            const n = Number(element.dataset.n);
+                            handleHoverBlank(m, n);
+                          }
                         : undefined
                     }
-
                     key={colIndex}
                   >
                     <div className="inner"></div>
                   </div>
-
                 </div>
               )),
             )}

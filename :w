@@ -51,38 +51,7 @@
   height: 80px;
 }
 
-.leftmost::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 4;
-}
-
-.leftmost::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  left: 7.5px;
-  top: 7.5px;
-  z-index: 5;
-}
-
 .bigSquare {
-  background: red;
-  position: relative;
-}
-
-.bigSquare.leftmost::after {
-  width: 195px;
-  height: 195px;
-  background: #a60a0a;
-}
-
-.bigSquare.leftmost::before {
-  width: 180px;
-  height: 180px;
   background: red;
 }
 
@@ -99,7 +68,7 @@
   height: 95px;
   left: 0;
   top: 0;
-  background: #0a0aae;
+  background: purple;
   z-index: 4;
 }
 
@@ -111,25 +80,10 @@
   height: 80px;
   left: 7.5px;
   top: 7.5px;
-  background: blue;
+  background: cyan;
   z-index: 5;
 }
 
 .verticalRect {
-  background: green;
-  position: relative;
-}
-
-.verticalRect.leftmost::after {
-  width: 95px;
-  height: 195px;
-  background: #056605;
-}
-
-.verticalRect.leftmost::before {
-
-  width: 80px;
-  height: 180px;
-
   background: green;
 }
