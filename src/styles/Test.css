@@ -37,53 +37,93 @@
 
 
 
+.origin .outer {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  top: 0;
+}
+
+.origin .inner {
+  position: absolute;
+  z-index: 5;
+  left: 7.5px;
+  top: 7.5px;
+}
+
 .smallSquare {
-  background: #bebe07;
+  background: yellow;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-.smallSquare .inner {
-  pointer-events: none;
+.smallSquare.origin .outer {
+  background: #bebe07;
+  width: 95px;
+  height: 95px;
+}
+
+.smallSquare.origin .inner {
   background: yellow;
   width: 80px;
   height: 80px;
 }
 
+
 .bigSquare {
   background: red;
+  position: relative;
 }
+
+.bigSquare.origin .outer {
+  width: 195px;
+  height: 195px;
+  background: #a60a0a;
+
+}
+
+.bigSquare.origin .inner {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: red;
+
+}
+
 
 .horizontalRect {
   background: blue;
   position: relative;
 }
 
-.horizontalRect.leftmost::after {
-  content: "";
-  pointer-events: none;
-  position: absolute;
+.horizontalRect.origin .outer {
   width: 195px;
   height: 95px;
-  left: 0;
-  top: 0;
-  background: purple;
-  z-index: 4;
+  background: #0a0aae;
 }
 
-.horizontalRect.leftmost::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
+.horizontalRect.origin .inner {
   width: 180px;
   height: 80px;
-  left: 7.5px;
-  top: 7.5px;
-  background: cyan;
-  z-index: 5;
+  background: blue;
 }
 
+
 .verticalRect {
+  background: green;
+  position: relative;
+}
+
+.verticalRect.origin .outer {
+  width: 95px;
+  height: 195px;
+  background: #056605;
+}
+
+.verticalRect.origin .inner {
+  width: 80px;
+  height: 180px;
   background: green;
 }
