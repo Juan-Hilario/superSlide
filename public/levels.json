@@ -2,6 +2,11 @@
   {
     "shapes": [
       {
+        "type": "bigSquare",
+        "m": 0,
+        "n": 1
+      },
+      {
         "type": "smallSquare",
         "m": 4,
         "n": 0
@@ -20,11 +25,6 @@
         "type": "smallSquare",
         "m": 4,
         "n": 3
-      },
-      {
-        "type": "bigSquare",
-        "m": 0,
-        "n": 1
       },
       {
         "type": "horizontalRect",
@@ -46,14 +46,78 @@
   {
     "shapes": [
       {
+        "type": "bigSquare",
+        "m": 0,
+        "n": 0
+      },
+      {
+        "type": "smallSquare",
+        "m": 0,
+        "n": 2
+      },
+      {
+        "type": "smallSquare",
+        "m": 0,
+        "n": 3
+      },
+      {
+        "type": "smallSquare",
+        "m": 1,
+        "n": 2
+      },
+      {
+        "type": "smallSquare",
+        "m": 1,
+        "n": 3
+      },
+      {
+        "type": "horizontalRect",
+        "m": 2,
+        "n": 0
+      },
+      {
+        "type": "verticalRect",
+        "m": 3,
+        "n": 0
+      },
+      {
+        "type": "smallSquare",
+        "m": 3,
+        "n": 1
+      },
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 1
+      }
+    ]
+  },
+  {
+    "shapes": [
+      {
+        "type": "bigSquare",
+        "m": 0,
+        "n": 1
+      },
+      {
         "type": "smallSquare",
         "m": 4,
         "n": 0
       },
       {
-        "type": "bigSquare",
-        "m": 0,
+        "type": "smallSquare",
+        "m": 4,
         "n": 1
+      },
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 2
+      },
+      {
+        "type": "smallSquare",
+        "m": 4,
+        "n": 3
       },
       {
         "type": "horizontalRect",
@@ -61,14 +125,19 @@
         "n": 1
       },
       {
+        "type": "horizontalRect",
+        "m": 3,
+        "n": 1
+      },
+      {
         "type": "verticalRect",
-        "m": 0,
+        "m": 1,
         "n": 3
       },
       {
         "type": "verticalRect",
-        "m": 2,
-        "n": 3
+        "m": 1,
+        "n": 0
       }
     ]
   }

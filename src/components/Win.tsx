@@ -1,6 +1,6 @@
 import "../styles/Win.css";
 interface WinProps {
-  levelFunction: (direction: "next" | "prev") => void;
+  levelFunction: (option: "again" | "next" | "prev") => void;
 }
 function Win({ levelFunction }: WinProps) {
   return (
@@ -12,7 +12,7 @@ function Win({ levelFunction }: WinProps) {
             <button className="arrowBtn" onClick={() => levelFunction("prev")}>
               Prev Level
             </button>
-            <button className="playAgainBtn">Play Again</button>
+            <button className="playAgainBtn" onClick={() => levelFunction("again")}>Play Again</button>
             <button className="arrowBtn" onClick={() => levelFunction("next")}>
               Next Level
             </button>

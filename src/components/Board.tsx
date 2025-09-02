@@ -17,6 +17,7 @@ function Board() {
     ),
   );
   const [gameWin, setGameWin] = useState<boolean>(false);
+  const [reset, setReset] = useState<boolean>(false);
 
   localStorage.setItem("currentLevel", levelNum.toString());
 
@@ -31,12 +32,19 @@ function Board() {
       });
   };
 
-  const changeLevel = (direction: "next" | "prev") => {
-    if (direction === "next") {
-      setLevelNum(levelNum + 1);
-    } else if (direction === "prev") {
-      setLevelNum(levelNum - 1);
+  const changeLevel = (option: "again" | "next" | "prev") => {
+    switch (option) {
+      case "again":
+        setReset(!reset);
+        break;
+      case "next":
+        if (levelNum + 1 < levels.length) { setLevelNum(levelNum + 1) };
+        break;
+      case "prev":
+        if (levelNum - 1 >= 0) { setLevelNum(levelNum - 1) };
+        break;
     }
+
   };
 
   useEffect(() => {
@@ -104,7 +112,7 @@ function Board() {
       );
       setPieces(newPieces);
     }
-  }, [levels, levelNum]);
+  }, [levels, levelNum, reset]);
 
   // Builds empty board
   const createEmptyBoard = () =>
@@ -377,7 +385,7 @@ function Board() {
 
   useEffect(() => {
     setGameWin(false);
-  }, [levelNum]);
+  }, [levelNum, reset]);
 
   useEffect(() => {
     const boardPieces = document.querySelectorAll(".piece");
@@ -401,7 +409,11 @@ function Board() {
         </div>
       ) : (
         <>
-          <h1>Level: {levelNum + 1}</h1>
+          <div className="top">
+            <h1>Level: {levelNum + 1}</h1>
+            <button onClick={() => changeLevel("again")}>Reset</button>
+
+          </div>
           <div className="board">
             {board.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
@@ -437,7 +449,8 @@ function Board() {
           </div>
           {gameWin ? <Win levelFunction={changeLevel} /> : null}
         </>
-      )}
+      )
+      }
     </>
   );
 }
