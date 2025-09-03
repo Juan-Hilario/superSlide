@@ -11,6 +11,11 @@ function Board() {
   let boardError = { msg: "", error: false };
 
   const [levels, setLevels] = useState<Level[] | []>([]);
+  const [highestLevel, setHighestLevel] = useState<number>(
+    Number(
+      `${localStorage.getItem("highestLevel") ? localStorage.getItem("highestLevel") : 0}`,
+    ),
+  );
   const [levelNum, setLevelNum] = useState<number>(
     Number(
       `${localStorage.getItem("currentLevel") ? localStorage.getItem("currentLevel") : 0}`,
@@ -20,6 +25,7 @@ function Board() {
   const [reset, setReset] = useState<boolean>(false);
 
   localStorage.setItem("currentLevel", levelNum.toString());
+  localStorage.setItem("highestLevel", highestLevel.toString());
 
   // Get Levels from levels.json
   const fetchLevels = async () => {
@@ -32,19 +38,27 @@ function Board() {
       });
   };
 
+  const isHighestLevel = (level: number) => {
+    if (highestLevel < level) {
+      return true;
+    } else return false;
+  };
   const changeLevel = (option: "again" | "next" | "prev") => {
     switch (option) {
       case "again":
         setReset(!reset);
         break;
       case "next":
-        if (levelNum + 1 < levels.length) { setLevelNum(levelNum + 1) };
+        if (levelNum + 1 < levels.length) {
+          setLevelNum(levelNum + 1);
+        }
         break;
       case "prev":
-        if (levelNum - 1 >= 0) { setLevelNum(levelNum - 1) };
+        if (levelNum - 1 >= 0) {
+          setLevelNum(levelNum - 1);
+        }
         break;
     }
-
   };
 
   useEffect(() => {
@@ -92,6 +106,9 @@ function Board() {
       board[4][2].id == 0
     ) {
       setGameWin(true);
+      if (isHighestLevel(levelNum)) {
+        setHighestLevel(levelNum);
+      }
     } else {
       return;
     }
@@ -400,7 +417,6 @@ function Board() {
       }
     });
   });
-
   return (
     <>
       {boardError.error ? (
@@ -410,9 +426,15 @@ function Board() {
       ) : (
         <>
           <div className="top">
+            <h3>Highlest Level: {highestLevel + 1}</h3>
             <h1>Level: {levelNum + 1}</h1>
+
+            <button onClick={() => changeLevel("prev")}>Prev</button>
             <button onClick={() => changeLevel("again")}>Reset</button>
 
+            {highestLevel >= levelNum + 1 ? (
+              <button onClick={() => changeLevel("next")}>Next</button>
+            ) : null}
           </div>
           <div className="board">
             {board.map((row, rowIndex) =>
@@ -430,12 +452,12 @@ function Board() {
                     onMouseEnter={
                       cell === null
                         ? (e: React.DragEvent<HTMLDivElement>) => {
-                          if (currentPieceId === null) return;
-                          const element = e.target as HTMLElement;
-                          const m = Number(element.dataset.m);
-                          const n = Number(element.dataset.n);
-                          handleHoverBlank(m, n);
-                        }
+                            if (currentPieceId === null) return;
+                            const element = e.target as HTMLElement;
+                            const m = Number(element.dataset.m);
+                            const n = Number(element.dataset.n);
+                            handleHoverBlank(m, n);
+                          }
                         : undefined
                     }
                     key={colIndex}
@@ -449,8 +471,7 @@ function Board() {
           </div>
           {gameWin ? <Win levelFunction={changeLevel} /> : null}
         </>
-      )
-      }
+      )}
     </>
   );
 }
