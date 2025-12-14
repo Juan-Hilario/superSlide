@@ -3,8 +3,9 @@ import { createShape, Shape, ShapeType } from "./Pieces";
 import Win from "./Win";
 import "../styles/Board.css";
 
-interface Level {
+export interface Level {
   shapes: { type: ShapeType; m: number; n: number }[];
+  difficulty: string;
 }
 
 function Board() {
@@ -16,16 +17,25 @@ function Board() {
       `${localStorage.getItem("highestLevel") ? localStorage.getItem("highestLevel") : 0}`,
     ),
   );
+
   const [levelNum, setLevelNum] = useState<number>(
     Number(
       `${localStorage.getItem("currentLevel") ? localStorage.getItem("currentLevel") : 0}`,
     ),
   );
+
+  const [difficulty, setDifficulty] = useState<string>(
+    String(
+      `${localStorage.getItem("difficulty") ? localStorage.getItem("difficulty") : ""}`,
+    ),
+  );
+
   const [gameWin, setGameWin] = useState<boolean>(false);
   const [reset, setReset] = useState<boolean>(false);
 
   localStorage.setItem("currentLevel", levelNum.toString());
   localStorage.setItem("highestLevel", highestLevel.toString());
+  localStorage.setItem("difficulty", difficulty.toString());
 
   // Get Levels from levels.json
   const fetchLevels = async () => {
@@ -51,11 +61,14 @@ function Board() {
       case "next":
         if (levelNum + 1 < levels.length) {
           setLevelNum(levelNum + 1);
+          setDifficulty(levels[levelNum + 1].difficulty);
         }
         break;
       case "prev":
         if (levelNum - 1 >= 0) {
           setLevelNum(levelNum - 1);
+
+          setDifficulty(levels[levelNum - 1].difficulty);
         }
         break;
     }
@@ -426,8 +439,15 @@ function Board() {
       ) : (
         <>
           <div className="top">
-            <h3>Highlest Level: {highestLevel + 1}</h3>
+            <h3>Highest Level: {highestLevel + 1}</h3>
             <h1>Level: {levelNum + 1}</h1>
+            <h4
+              style={{
+                color: `${difficulty === "easy" ? "green" : difficulty === "normal" ? "orange" : difficulty === "hard" ? "red" : null} `,
+              }}
+            >
+              {difficulty}
+            </h4>
 
             <button onClick={() => changeLevel("prev")}>Prev</button>
             <button onClick={() => changeLevel("again")}>Reset</button>
@@ -469,7 +489,13 @@ function Board() {
               )),
             )}
           </div>
-          {gameWin ? <Win levelFunction={changeLevel} /> : null}
+          {gameWin ? (
+            <Win
+              levelFunction={changeLevel}
+              levelNum={levelNum}
+              levels={levels}
+            />
+          ) : null}
         </>
       )}
     </>
