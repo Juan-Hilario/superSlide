@@ -5,6 +5,7 @@
   grid-template: repeat(5, 1fr) / repeat(4, 1fr);
   -webkit-user-drag: none;
   user-select: none;
+  border: none;
 }
 
 .space {
@@ -29,10 +30,17 @@
 }
 
 .blank {
-  /* background: grey; */
+  background: grey;
   /* border: 1px solid black; */
   cursor: unset;
 
+}
+
+#cell-3-1,
+#cell-4-1,
+#cell-3-2,
+#cell-4-2 {
+  background: lightgray;
 }
 
 .origin .outer {

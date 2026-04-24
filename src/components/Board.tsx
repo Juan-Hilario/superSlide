@@ -462,6 +462,7 @@ function Board() {
                 <div className="space">
                   <div
                     className={` ${cell === null ? "blank" : "piece " + cell.type} `}
+                    id={`cell-${rowIndex}-${colIndex}`}
                     data-m={rowIndex}
                     data-n={colIndex}
                     data-origin-m={`${cell ? cell.origin.m.toString() : null}`}
@@ -474,8 +475,12 @@ function Board() {
                         ? (e: React.DragEvent<HTMLDivElement>) => {
                             if (currentPieceId === null) return;
                             const element = e.target as HTMLElement;
-                            const m = Number(element.dataset.m);
-                            const n = Number(element.dataset.n);
+                            const m = Number(
+                              (element as HTMLElement).dataset.m,
+                            );
+                            const n = Number(
+                              (element as HTMLElement).dataset.n,
+                            );
                             handleHoverBlank(m, n);
                           }
                         : undefined

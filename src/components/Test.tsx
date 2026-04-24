@@ -418,25 +418,24 @@ function Board() {
                     onMouseEnter={
                       cell === null
                         ? (e: React.DragEvent<HTMLDivElement>) => {
-                          if (currentPieceId === null) return;
-                          const element = e.target as HTMLElement;
-                          const m = Number(element.dataset.m);
-                          const n = Number(element.dataset.n);
-                          handleHoverBlank(m, n);
-                        }
+                            if (currentPieceId === null) return;
+                            const element = e.target as HTMLElement;
+                            const m = Number(element.dataset.m);
+                            const n = Number(element.dataset.n);
+                            handleHoverBlank(m, n);
+                          }
                         : undefined
                     }
                     key={colIndex}
                   >
-                    <div className="outer">
-                    </div>
+                    <div className="outer"></div>
                     <div className="inner"></div>
                   </div>
                 </div>
               )),
             )}
           </div>
-          {gameWin ? <Win levelFunction={changeLevel} /> : null}
+          {/* {gameWin ? <Win levelFunction={changeLevel} /> : null} */}
         </>
       )}
     </>
