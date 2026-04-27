@@ -382,9 +382,10 @@ function Board() {
   useEffect(() => {
     const boardPieces = document.querySelectorAll(".piece");
     boardPieces.forEach((piece) => {
+      const el = piece as HTMLElement;
       if (
-        piece.dataset.originM == piece.dataset.m &&
-        piece.dataset.originN == piece.dataset.n
+        el.dataset.originM == el.dataset.m &&
+        el.dataset.originN == el.dataset.n
       ) {
         piece.classList.add("origin");
       } else {
