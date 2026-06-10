@@ -8,7 +8,11 @@ export interface Level {
   difficulty: string;
 }
 
-function Board() {
+type BoardProps = {
+  onExit: () => void;
+};
+
+function Board({ onExit }: BoardProps) {
   let boardError = { msg: "", error: false };
 
   const [levels, setLevels] = useState<Level[] | []>([]);
@@ -440,11 +444,12 @@ function Board() {
       ) : (
         <>
           <div className="top">
+            <button onClick={onExit}>Exit</button>
             <h3>Highest Level: {highestLevel + 1}</h3>
             <h1>Level: {levelNum + 1}</h1>
             <h4
               style={{
-                color: `${difficulty === "easy" ? "green" : difficulty === "normal" ? "orange" : difficulty === "hard" ? "red" : null} `,
+                color: `${difficulty === "easy" ? "green" : difficulty === "medium" ? "orange" : difficulty === "hard" ? "red" : null} `,
               }}
             >
               {difficulty}
