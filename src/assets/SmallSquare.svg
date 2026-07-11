@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 105 105" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-441.5,-97.5)">
+        <g transform="matrix(1,0,0,1,-6,0)">
+            <g id="SmallSquare">
+                <g transform="matrix(0.5,0,0,0.5,425,75)">
+                    <path d="M227.987,45C235.151,45 242.022,47.846 247.088,52.912C252.154,57.978 255,64.849 255,72.013L255,227.987C255,235.151 252.154,242.022 247.088,247.088C242.022,252.154 235.151,255 227.987,255L72.013,255C64.849,255 57.978,252.154 52.912,247.088C47.846,242.022 45,235.151 45,227.987L45,72.013C45,64.849 47.846,57.978 52.912,52.912C57.978,47.846 64.849,45 72.013,45L227.987,45Z" style="fill:rgb(240,223,0);"/>
+                </g>
+                <g transform="matrix(0.5,0,0,0.5,425,75)">
+                    <path d="M245.771,248.32L51.68,54.229C52.075,53.778 52.486,53.338 52.912,52.912C54.173,51.651 55.546,50.528 57.007,49.552L250.448,242.993C249.472,244.454 248.349,245.827 247.088,247.088C246.662,247.514 246.222,247.925 245.771,248.32Z" style="fill:rgb(228,203,34);"/>
+                </g>
+                <g transform="matrix(0.5,0,0,0.5,425,75)">
+                    <path d="M241.45,48.594C243.494,49.769 245.392,51.216 247.088,52.912L247.112,52.936L52.936,247.112L52.912,247.088C51.216,245.392 49.769,243.494 48.594,241.45L241.45,48.594Z" style="fill:rgb(228,203,34);"/>
+                </g>
+                <g transform="matrix(0.558511,0,0,0.558511,209.574468,58.404255)">
+                    <circle cx="520" cy="164" r="47" style="fill:rgb(228,203,34);stroke:rgb(228,203,34);stroke-width:3.36px;"/>
+                </g>
+                <g transform="matrix(0.335106,0,0,0.335106,326.358011,95.042553)">
+                    <circle cx="520" cy="164" r="47" style="fill:rgb(240,223,0);stroke:rgb(240,223,0);stroke-width:5.6px;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

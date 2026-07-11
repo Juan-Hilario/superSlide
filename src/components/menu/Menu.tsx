@@ -1,3 +1,4 @@
+import "../../styles/Menu.css";
 type MenuProps = {
   onPlay: () => void;
 };
@@ -10,9 +11,12 @@ function Menu({ onPlay }: MenuProps) {
         {message.length > 0 ? <div className="message"></div> : null}
         <h1>Super Slide</h1>
         <h2>
-          made by <a href="https://www.juanhilario.me">Juan Hilario</a>
+          made by <a href="https://juanhilario.dev/">Juan Hilario</a>
         </h2>
         <div className="menuBtns">
+          <a href="https://juanhilario.dev/">
+            <button>Exit</button>
+          </a>
           <button onClick={onPlay}>Play</button>
           {/* <button>Options</button> */}
         </div>

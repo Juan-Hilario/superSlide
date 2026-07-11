@@ -1,3 +1,40 @@
+.game {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  /* align-items: center; */
+  /* gap: 100px; */
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+.exit-btn {
+  width: fit-content;
+}
+
+.top-right {
+  display: flex;
+  flex-direction: row;
+}
+
+.instructions {
+  flex: 1;
+}
+
+.level-controls {
+  flex: 3
+}
+
 .board {
   width: fit-content;
   display: grid;
@@ -15,119 +52,72 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
 }
 
-.piece,
 .blank {
   width: 95px;
   height: 95px;
+}
+
+.blank {
+  background: grey;
+  cursor: unset;
+
+}
+
+#cell-3-1.blank,
+#cell-4-1.blank,
+#cell-3-2.blank,
+#cell-4-2.blank,
+.space:has(#cell-3-1, #cell-3-2, #cell-4-1, #cell-4-2) {
+  background: lightgray;
+}
+
+.rendering {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piece {
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
   -moz-user-select: none;
-}
 
-.blank {
-  background: grey;
-  /* border: 1px solid black; */
-  cursor: unset;
-
-}
-
-#cell-3-1,
-#cell-4-1,
-#cell-3-2,
-#cell-4-2 {
-  background: lightgray;
-}
-
-.origin .outer {
-  position: absolute;
-  z-index: 4;
-  left: 0;
-  top: 0;
-}
-
-.origin .inner {
-  position: absolute;
-  z-index: 5;
-  left: 7.5px;
-  top: 7.5px;
-}
-
-.smallSquare {
-  background: yellow;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-}
-
-.smallSquare.origin .outer {
-  background: #bebe07;
-  width: 95px;
-  height: 95px;
-}
-
-.smallSquare.origin .inner {
-  background: yellow;
-  width: 80px;
-  height: 80px;
-}
-
-.bigSquare {
-  background: red;
-  position: relative;
-}
-
-.bigSquare.origin .outer {
-  width: 195px;
-  height: 195px;
-  background: #a60a0a;
-
-}
-
-.bigSquare.origin .inner {
   position: absolute;
-  width: 180px;
-  height: 180px;
-  background: red;
+  top: 0;
+  left: 0;
 
+  z-index: 1;
 }
 
-.horizontalRect {
-  background: blue;
-  position: relative;
+.smallSquare.origin {
+  width: 100px;
+  height: 100px;
 }
 
-.horizontalRect.origin .outer {
-  width: 195px;
-  height: 95px;
-  background: #0a0aae;
+.bigSquare.origin {
+  width: 200px;
+  height: 200px;
 }
 
-.horizontalRect.origin .inner {
-  width: 180px;
-  height: 80px;
-  background: blue;
+.horizontalRect.origin {
+  width: 200px;
+  height: 100px;
 }
 
-
-.verticalRect {
-  background: green;
-  position: relative;
-}
-
-.verticalRect.origin .outer {
-  width: 95px;
-  height: 195px;
-  background: #056605;
-}
-
-.verticalRect.origin .inner {
-  width: 80px;
-  height: 180px;
-  background: green;
+.verticalRect.origin {
+  width: 100px;
+  height: 200px;
 }
