@@ -5,12 +5,7 @@ type Direction = "left" | "up" | "down" | "right";
 type SetPieces = React.Dispatch<React.SetStateAction<Shape[]>>;
 type Pieces = Shape[];
 
-const checkMove = (
-    pieceId: number,
-    pieces: Pieces,
-    direction: Direction,
-    board: Board,
-) => {
+const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board: Board) => {
     let flag = true;
     if (direction === "left") {
         pieces.map((piece) => {
@@ -22,9 +17,7 @@ const checkMove = (
                     min = piece.coordinates[i].n;
                 }
             }
-            const filteredCoordArr = piece.coordinates.filter(
-                (coord) => coord.n === min,
-            );
+            const filteredCoordArr = piece.coordinates.filter((coord) => coord.n === min);
 
             filteredCoordArr.map((coord) => {
                 if (
@@ -46,14 +39,9 @@ const checkMove = (
                     min = piece.coordinates[i].m;
                 }
             }
-            const filteredCoordArr = piece.coordinates.filter(
-                (coord) => coord.m === min,
-            );
+            const filteredCoordArr = piece.coordinates.filter((coord) => coord.m === min);
             filteredCoordArr.map((coord) => {
-                if (
-                    board[coord.m - 1] === undefined ||
-                    board[coord.m - 1][coord.n] !== null
-                ) {
+                if (board[coord.m - 1] === undefined || board[coord.m - 1][coord.n] !== null) {
                     flag = false;
                 }
             });
@@ -69,14 +57,9 @@ const checkMove = (
                 }
             }
 
-            const filteredCoordArr = piece.coordinates.filter(
-                (coord) => coord.m === max,
-            );
+            const filteredCoordArr = piece.coordinates.filter((coord) => coord.m === max);
             filteredCoordArr.map((coord) => {
-                if (
-                    board[coord.m + 1] === undefined ||
-                    board[coord.m + 1][coord.n] !== null
-                ) {
+                if (board[coord.m + 1] === undefined || board[coord.m + 1][coord.n] !== null) {
                     flag = false;
                 }
             });
@@ -92,9 +75,7 @@ const checkMove = (
                 }
             }
 
-            const filteredCoordArr = piece.coordinates.filter(
-                (coord) => coord.n === max,
-            );
+            const filteredCoordArr = piece.coordinates.filter((coord) => coord.n === max);
             filteredCoordArr.map((coord) => {
                 if (
                     board[coord.m][coord.n + 1] === undefined ||
@@ -206,12 +187,7 @@ export const handlePieceSlide = (
     }
 };
 
-export const getDirection = (
-    pieceId: number,
-    pieces: Pieces,
-    blankM: number,
-    blankN: number,
-) => {
+export const getDirection = (pieceId: number, pieces: Pieces, blankM: number, blankN: number) => {
     let pieceM, pieceN, type, width, height;
 
     pieces.map((piece) => {
@@ -265,4 +241,36 @@ export const getDirection = (
         console.error("checkDirection(): Something is wrong");
         return;
     }
+};
+
+export const placePiece = (
+    board: (Shape | null)[][],
+    piece: Shape,
+    boardError: { msg: string; error: boolean },
+) => {
+    const coordinates = Object.values(piece.coordinates);
+    const verifiedCoords = [];
+    for (let i = 0; i < coordinates.length; i++) {
+        const m = coordinates[i].m;
+        const n = coordinates[i].n;
+        if (m >= board.length || n >= board[0].length) {
+            boardError = { msg: "Piece out of bounds", error: true };
+            return "Piece out of bounds";
+        } else if (board[m][n] !== null) {
+            boardError = {
+                msg: "Space is occupied by other piece",
+                error: true,
+            };
+            return "Space is occupied by other piece";
+        } else {
+            verifiedCoords.push(coordinates[i]);
+        }
+    }
+    if (verifiedCoords.length === coordinates.length) {
+        verifiedCoords.map((coord) => {
+            board[coord.m][coord.n] = piece;
+        });
+    }
+
+    return verifiedCoords;
 };
