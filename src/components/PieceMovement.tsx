@@ -1,11 +1,17 @@
 import { Shape } from "./Pieces";
+import { playRandomSound } from "./util/PieceSounds";
 
 type Board = (Shape | null)[][];
 type Direction = "left" | "up" | "down" | "right";
 type SetPieces = React.Dispatch<React.SetStateAction<Shape[]>>;
 type Pieces = Shape[];
 
-const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board: Board) => {
+const checkMove = (
+    pieceId: number,
+    pieces: Pieces,
+    direction: Direction,
+    board: Board,
+) => {
     let flag = true;
     if (direction === "left") {
         pieces.map((piece) => {
@@ -17,7 +23,9 @@ const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board:
                     min = piece.coordinates[i].n;
                 }
             }
-            const filteredCoordArr = piece.coordinates.filter((coord) => coord.n === min);
+            const filteredCoordArr = piece.coordinates.filter(
+                (coord) => coord.n === min,
+            );
 
             filteredCoordArr.map((coord) => {
                 if (
@@ -39,9 +47,14 @@ const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board:
                     min = piece.coordinates[i].m;
                 }
             }
-            const filteredCoordArr = piece.coordinates.filter((coord) => coord.m === min);
+            const filteredCoordArr = piece.coordinates.filter(
+                (coord) => coord.m === min,
+            );
             filteredCoordArr.map((coord) => {
-                if (board[coord.m - 1] === undefined || board[coord.m - 1][coord.n] !== null) {
+                if (
+                    board[coord.m - 1] === undefined ||
+                    board[coord.m - 1][coord.n] !== null
+                ) {
                     flag = false;
                 }
             });
@@ -57,9 +70,14 @@ const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board:
                 }
             }
 
-            const filteredCoordArr = piece.coordinates.filter((coord) => coord.m === max);
+            const filteredCoordArr = piece.coordinates.filter(
+                (coord) => coord.m === max,
+            );
             filteredCoordArr.map((coord) => {
-                if (board[coord.m + 1] === undefined || board[coord.m + 1][coord.n] !== null) {
+                if (
+                    board[coord.m + 1] === undefined ||
+                    board[coord.m + 1][coord.n] !== null
+                ) {
                     flag = false;
                 }
             });
@@ -75,7 +93,9 @@ const checkMove = (pieceId: number, pieces: Pieces, direction: Direction, board:
                 }
             }
 
-            const filteredCoordArr = piece.coordinates.filter((coord) => coord.n === max);
+            const filteredCoordArr = piece.coordinates.filter(
+                (coord) => coord.n === max,
+            );
             filteredCoordArr.map((coord) => {
                 if (
                     board[coord.m][coord.n + 1] === undefined ||
@@ -185,9 +205,15 @@ export const handlePieceSlide = (
             });
         });
     }
+    playRandomSound();
 };
 
-export const getDirection = (pieceId: number, pieces: Pieces, blankM: number, blankN: number) => {
+export const getDirection = (
+    pieceId: number,
+    pieces: Pieces,
+    blankM: number,
+    blankN: number,
+) => {
     let pieceM, pieceN, type, width, height;
 
     pieces.map((piece) => {
